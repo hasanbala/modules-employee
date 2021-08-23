@@ -1,0 +1,16 @@
+{
+  "employees": [
+    {
+      "name": "phenomeno ronaldo nazario",
+      "department": "old kicker",
+      "salary": "80000",
+      "id": 1
+    },
+    {
+      "name": "romario granada",
+      "department": "history and geoglogy",
+      "salary": "6002",
+      "id": 2
+    }
+  ]
+}
