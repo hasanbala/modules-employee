@@ -1,16 +1,22 @@
 {
   "employees": [
     {
-      "name": "phenomeno ronaldo nazario",
-      "department": "old kicker",
-      "salary": "80000",
+      "name": "Mohamed Salah",
+      "department": "Right Winger",
+      "salary": 240000,
       "id": 1
     },
     {
-      "name": "romario granada",
-      "department": "history and geoglogy",
-      "salary": "6002",
+      "name": "Alisson Ramses Becker",
+      "department": "Goalkeeper",
+      "salary": 78443,
       "id": 2
+    },
+    {
+      "name": "Roberto Firmino Barbosa de Oliveira",
+      "department": "Centre-Forward",
+      "salary": 180000,
+      "id": 3
     }
   ]
 }

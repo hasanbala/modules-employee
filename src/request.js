@@ -1,42 +1,80 @@
+import { Fetch } from "./fetch";
+import { UI } from "./ui";
+
+const url = "http://localhost:3000/employees";
 export class Request {
-  constructor(url) {
-    this.url = url;
+  constructor() {
+    this.fetch = new Fetch();
+    this.ui = new UI();
+    this.name = document.querySelector("#name");
+    this.department = document.querySelector("#department");
+    this.salary = document.querySelector("#salary");
   }
 
-  async get() {
-    const response = await fetch(this.url);
-    const responseData = await response.json();
-    return responseData;
+  reqGet() {
+    this.fetch
+      .get(url)
+      .then((response) => this.ui.showAllEmployeesAtUI(response))
+      .catch((err) => console.log(err));
   }
 
-  async post(data) {
-    const response = await fetch(this.url, {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-    });
-    const responseData = await response.json();
-    return responseData;
+  reqPost() {
+    const namex = this.name.value.trim();
+    const departmentx = this.department.value.trim();
+    const salarx = this.salary.value.trim();
+
+    if (namex == "" || departmentx == "" || salarx == "") {
+      this.ui.showError("Please enter a valid value");
+    } else {
+      this.fetch
+        .post(url, {
+          name: namex,
+          department: departmentx,
+          salary: Number(salarx),
+        })
+        .then((response) => {
+          this.ui.addEmployeeToUI(response);
+          this.ui.showSuccess("Congrats! employee added");
+        })
+        .catch((err) => console.log(err));
+    }
+    this.ui.clearInputs();
   }
 
-  async put(id, data) {
-    const response = await fetch(this.url + "/" + id, {
-      method: "PUT",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-    });
-    const responseData = await response.json();
-    return responseData;
+  reqDelete(element) {
+    const id =
+      element.parentElement.previousElementSibling.previousElementSibling
+        .textContent;
+    const tr = element.parentElement.parentElement;
+    this.fetch
+      .delete(url + `/${id}`)
+      .then((_res) => {
+        this.ui.removeEmployee(tr);
+        this.ui.showSuccess("Employee deleted");
+      })
+      .catch((err) => console.log(err));
   }
 
-  async delete(id) {
-    const response = await fetch(this.url + "/" + id, {
-      method: "DELETE",
-    });
-    return "veri silindi";
+  moveSpecsToInputs(tr) {
+    const key = tr.children;
+    this.name.value = key[0].textContent;
+    this.department.value = key[1].textContent;
+    this.salary.value = key[2].textContent;
+  }
+
+  reqPut(id, parent) {
+    const data = {
+      name: this.name.value,
+      department: this.department.value,
+      salary: Number(this.salary.value),
+    };
+
+    this.fetch
+      .put(url + `/${id}`, data)
+      .then((response) => {
+        this.ui.updateEmployeesAtUI(response, parent);
+        this.ui.showSuccess("Employee updated");
+      })
+      .catch((err) => console.log(err));
   }
 }

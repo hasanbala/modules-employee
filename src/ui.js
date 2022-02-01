@@ -1,78 +1,86 @@
 export class UI {
   constructor() {
-    this.nameInput = document.querySelector("#name");
-    this.departmentInput = document.querySelector("#department");
-    this.salaryInput = document.querySelector("#salary");
-    this.employeesList = document.querySelector("#employees");
-    this.updateButton = document.querySelector("#update");
+    this.name = document.querySelector("#name");
+    this.department = document.querySelector("#department");
+    this.salary = document.querySelector("#salary");
+    this.employees = document.querySelector("#employees");
+    this.update = document.querySelector("#update");
+    this.alert = document.querySelector(".card-body");
   }
 
-  addAllEmployeesToUI(employees) {
+  showAllEmployeesAtUI(data) {
     let result = "";
-    employees.forEach((element) => {
+    data.forEach((element) => {
       result += `
-            <tr>
-                <td>${element.name}</td>
-                <td>${element.department}</td>
-                <td>${element.salary}</td>
-                <td>${element.id}</td>
-                <td><a href="#" id = "update-employee" class= "btn btn-danger">Güncelle</a></td> 
-                <td> <a href="#" id = "delete-employee" class= "btn btn-danger">Sil</a></td>
-            </tr>
-            `;
+      <tr>
+      <td>${element.name}</td>
+        <td>${element.department}</td>
+        <td>${element.salary}</td>
+        <td>${element.id}</td>
+        <td><a href="#" id="update-employee" class="btn btn-info">Update</a></td>
+        <td> <a href="#" id="delete-employee" class="btn btn-danger">Delete</a></td>
+      </tr>
+      `;
     });
-    this.employeesList.innerHTML = result;
+    this.employees.innerHTML = result;
+  }
+
+  addEmployeeToUI(data) {
+    this.employees.innerHTML += `
+    <tr>
+      <td>${data.name}</td>
+      <td>${data.department}</td>
+      <td>${data.salary}</td>
+      <td>${data.id}</td>
+      <td><a href="#" id="update-employee" class="btn btn-info">Update</a></td>
+      <td> <a href="#" id="delete-employee" class="btn btn-danger">Delete</a></td>
+    </tr>    
+    `;
+  }
+
+  removeEmployee(id) {
+    id.remove();
+  }
+
+  updateEmployeesAtUI(data, parent) {
+    parent.innerHTML = `
+    <tr>
+      <td>${data.name}</td>
+      <td>${data.department}</td>
+      <td>${data.salary}</td>
+      <td>${data.id}</td>
+      <td><a href="#" id="update-employee" class="btn btn-info">Update</a></td>
+      <td> <a href="#" id="delete-employee" class="btn btn-danger">Delete</a></td>
+    </tr>    
+    `;
+    this.clearInputs();
   }
 
   clearInputs() {
-    this.nameInput.value = "";
-    this.salaryInput.value = "";
-    this.departmentInput.value = "";
+    this.name.value = "";
+    this.department.value = "";
+    this.salary.value = "";
   }
 
-  addEmployeeToUI(element) {
-    this.employeesList.innerHTML += `
-        <tr>
-            <td>${element.name}</td>
-            <td>${element.department}</td>
-            <td>${element.salary}</td>
-            <td>${element.id}</td>
-            <td><a href="#" id = "update-employee" class= "btn btn-danger">Güncelle</a></td> 
-            <td> <a href="#" id = "delete-employee" class= "btn btn-danger">Sil</a></td>
-        </tr>`;
+  showError(message) {
+    const div = document.createElement("div");
+    div.className = "alert alert-danger";
+    div.textContent = message;
+    this.alert.appendChild(div);
+
+    setTimeout(() => {
+      div.remove();
+    }, 2500);
   }
 
-  deleteEmployeeFromUI(element) {
-    element.remove();
-  }
+  showSuccess(message) {
+    const div = document.createElement("div");
+    div.className = "alert alert-success";
+    div.textContent = message;
+    this.alert.appendChild(div);
 
-  toggleUpdateButton(target) {
-    if (this.updateButton.style.display === "none") {
-      this.updateButton.style.display = "block";
-      this.addAllEmployeeToInputs(target);
-    } else {
-      this.updateButton.style.display = "none";
-      this.clearInputs();
-    }
-  }
-
-  addAllEmployeeToInputs(target) {
-    const children = target.children;
-
-    this.nameInput.value = children[0].textContent;
-    this.departmentInput.value = children[1].textContent;
-    this.salaryInput.value = children[2].textContent;
-  }
-
-  updateEmployeeOnUI(element, parent) {
-    parent.innerHTML = `
-        <tr>
-            <td>${element.name}</td>
-            <td>${element.department}</td>
-            <td>${element.salary}</td>
-            <td>${element.id}</td>
-            <td><a href="#" id = "update-employee" class= "btn btn-danger">Güncelle</a></td> 
-            <td> <a href="#" id = "delete-employee" class= "btn btn-danger">Sil</a></td>
-        </tr>`;
+    setTimeout(() => {
+      div.remove();
+    }, 2500);
   }
 }

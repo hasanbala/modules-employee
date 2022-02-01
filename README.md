@@ -5,7 +5,7 @@ This is a employee project with using webpack,babel,webpack-dev-server and Es6 M
 ```
 
 ```sh
-npm install && npm start && webpack install & babel..
+yarn install && yarn start && webpack install & babel..
 ```
 
 ```sh
